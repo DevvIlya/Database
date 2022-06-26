@@ -1,46 +1,39 @@
-create table if not exists Genre (
+create table if not exists genre (
 	id serial primary key,
-	Title varchar(100) not null unique
+	genre_name varchar(100) not null unique
 );
-
-create table if not exists Executor (
+create table if not exists executor (
 	id serial primary key,
-	Executor_Name varchar(100) not null
+	executor_name varchar(100) not null	
 );
-
-create table if not exists Genre_Executor (
-    Executor_id integer references Executor(id),
-    Genre_id integer references Genre(id),
-    constraint Genre_Executor_pk primary key (Genre_id, Executor_id)
+create table if not exists genre_executor (
+    genre_id integer references genre(id),
+    executor_id integer references executor(id),
+    constraint genre_executor_pk primary key (genre_id, executor_id)
 );
-
-create table if not exists Album (
+create table if not exists album (
 	id serial primary key,
-	Title varchar(100) not null unique,
-	Years_Of_Release varchar(100) not null
+	album_name varchar(100) not null,
+	year_of_release integer not null
 );
-
-create table if not exists Executor_Album (
-	Album_id integer references Album(id),
-	Executor_id integer references Executor(id),
-	constraint Executor_Album_pk primary key (Album_id, Executor_id)
+create table if not exists executor_album (
+    executor_id integer references executor(id),
+    album_id integer references album(id),
+    constraint executor_album_pk primary key (executor_id, album_id)
 );
-
-create table if not exists Track (
+create table if not exists track (
 	id serial primary key,
-	Title varchar(100) not null unique,
-	Duration varchar(100) not null,
-	Album_id integer references album(id)
+	track_name varchar(100) not null unique,
+	duration integer not null,
+	album_id integer references album(id)
 );
-
-create table if not exists Collection_Of_Songs (
+create table if not exists collection_of_songs (
     id serial primary key,
-    Collection_Name varchar(100) not null unique,
-    Years_Of_Release integer not null
+    collection_name varchar(100) not null unique,
+    year_of_release integer not null
 );
-
-create table if not exists Track_Collection (
-    Track_id integer references Track(id),
-    Collection_Of_Songs_id integer references Collection_Of_Songs(id),
-    constraint Track_Collection_pk primary key (Track_id, Collection_Of_Songs_id)
+create table if not exists track_collection (
+    track_id integer references track(id),
+    collection_of_songs_id integer references collection_of_songs(id),
+    constraint track_collection_pk primary key (track_id, collection_of_songs_id)
 );
