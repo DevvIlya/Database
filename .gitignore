@@ -1,0 +1,3 @@
+venv/
+*app.py
+*main_test.ipynb
