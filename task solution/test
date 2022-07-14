@@ -1,6 +1,6 @@
 import psycopg2
 
-with psycopg2.connect(database="netology_db", user="postgres", password="6857+Asd") as conn:
+with psycopg2.connect(database="", user="", password="") as conn:
     with conn.cursor() as cur: 
  
         def create_db(conn):
