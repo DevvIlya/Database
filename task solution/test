@@ -1,0 +1,53 @@
+import psycopg2
+
+with psycopg2.connect(database="netology_db", user="postgres", password="6857+Asd") as conn:
+    with conn.cursor() as cur: 
+ 
+        def create_db(conn):
+            """Функция, создающая структуру БД (таблицы)"""
+        
+            cur = conn.cursor()
+            cur.execute("""CREATE TABLE IF NOT EXISTS customers(
+                client_id INTEGER UNIQUE PRIMARY KEY,
+                first_name VARCHAR(40),
+                last_name VARCHAR(60),
+                email VARCHAR(60)
+                );""")
+            cur.execute("""CREATE TABLE IF NOT EXISTS phones(
+                id SERIAL PRIMARY KEY,
+                client_id INTEGER REFERENCES customers(client_id),
+                phone VARCHAR(12)
+                );""")
+            conn.commit()  # фиксируем в БД
+        
+        
+        def add_client(conn, client_id, first_name, last_name, email, phones=None):
+            """Функция, позволяющая добавить нового клиента"""
+        
+            cur = conn.cursor()
+            cur.execute("""
+            INSERT INTO customers(client_id, first_name, last_name, email) VALUES(%s, %s, %s, %s);
+            """, (client_id, first_name, last_name, email))
+            conn.commit()
+            cur.execute("""
+            SELECT * FROM customers;
+            """)
+            print(cur.fetchall())
+            cur.execute("""
+            INSERT INTO phones(client_id, phone) VALUES(%s, %s);
+            """, (client_id, phones))
+            conn.commit()
+            cur.execute("""
+            SELECT * FROM phones;
+            """)
+            print(cur.fetchall())
+        
+        
+        def add_phone(conn, client_id, phone):
+            """Функция, позволяющая добавить телефон для существующего клиента"""
+        
+            cur = conn.cursor()
+            cur.execute("""
+            UPDATE phones SET phone=%s WHERE client_id=%s;
+            """, (phone, client_id))
+            conn.commit()  # фиксируем в БД
