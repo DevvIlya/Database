@@ -124,7 +124,7 @@ def find_user(conn, name=None, surname=None, email=None, phone=None):
 
 with psycopg2.connect(database='netology_db',
                         user='postgres',
-                        password='6857+Asd',
+                        password='',
                         host='localhost',
                         port='5432') as conn:
     with conn.cursor() as cur:
