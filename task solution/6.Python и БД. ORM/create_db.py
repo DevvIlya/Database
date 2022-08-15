@@ -6,9 +6,9 @@ from sqlalchemy import Table, Index, Integer, String, Column, Text, \
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
-import sqlalchemy as sq
+from connected import DSN, engine
 
-engine = create_engine("postgresql+psycopg2://postgres:*******@localhost:5432/netology_sqlalchemy")
+# engine = create_engine("postgresql+psycopg2://postgres:6857+Asd@localhost:5432/netology_sqlalchemy")
 
 Base = declarative_base()
 
@@ -53,24 +53,5 @@ class Shop(Base):
 # Base.metadata.drop_all(engine)
 # Base.metadata.create_all(engine)
 
-# def create_tables(engine):
-#     Base.metadata.create_all(engine)
-
-# def delete_tables(engine):
-#     Base.metadata.drop_all(engine)
-
-# def create_tables(engine):
-#     tabeles = (Publisher.__tablename__, 
-#                 Book.__tablename__, 
-#                 Stock.__tablename__, 
-#                 Sale.__tablename__,
-#                 Shop.__tablename__)
-#     for table_name in tabeles:
-#         if table_name in engine.table_names():
-#             return True
-#         else:
-#             Base.metadata.create_all(engine)
-
-if __name__ == '__main__':
+def create_tables(engine):
     Base.metadata.create_all(engine)
-    # Base.metadata.drop_all(engine)

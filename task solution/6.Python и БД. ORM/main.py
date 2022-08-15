@@ -2,10 +2,9 @@ import json
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 from create_db import create_tables, Publisher, Shop, Book, Stock, Sale
+from connected import DSN, engine
 
 
-DSN = "postgresql+psycopg2://postgres:*******@localhost:5432/netology_sqlalchemy"
-engine = sqlalchemy.create_engine(DSN)
 create_tables(engine)
 
 Session = sessionmaker(bind=engine)
