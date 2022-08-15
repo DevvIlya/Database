@@ -1,8 +1,9 @@
 import json
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
+import sqlalchemy as sq
 from create_db import create_tables, Publisher, Shop, Book, Stock, Sale
-from connected import DSN, engine
+from configs import DSN, engine
 
 
 create_tables(engine)
@@ -23,5 +24,3 @@ for record in data:
     }[record.get('model')]
     session.add(model(id=record.get('pk'), **record.get('fields')))
 session.commit()
-
-# print(session.query(Publisher).all())
