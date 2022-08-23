@@ -30,4 +30,8 @@ subq = session.query(Shop).all()
 for s in subq:
     print(s.id, s.name)
 
+print('======>')
+# запрос выборки магазинов, продающих книги издателя
+subq = session.query(Shop.id, Shop.name, Publisher.id).join(Publisher).all()
+
 session.commit()

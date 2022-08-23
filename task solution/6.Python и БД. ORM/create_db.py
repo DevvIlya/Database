@@ -14,26 +14,38 @@ Base = declarative_base()
 
 class Publisher(Base):
     __tablename__ = 'publisher'
+
     id = sq.Column(sq.Integer, primary_key=True)
-    name = sq.Column(sq.String(100), nullable=False)
-    bk = relationship('Book', backref='publisher', uselist=False)
+    name = sq.Column(sq.String(100), nullable=False, unique=True)
+
 
 class Book(Base):
-    __tablename__ = 'books'
+    __tablename__ = 'book'
+
     id = sq.Column(sq.Integer, primary_key=True)
     title = sq.Column(sq.String(100), nullable=False)
     id_publisher = sq.Column(sq.Integer(), sq.ForeignKey('publisher.id'))
-    stock = relationship("Stock")
+
+    publisher = relationship(Publisher, backref='books')
+
+
+class Shop(Base):
+    __tablename__ = 'shop'
+
+    id = sq.Column(sq.Integer, primary_key=True)
+    name = sq.Column(sq.String(100), nullable=False)
 
 
 class Stock(Base):
     __tablename__ = 'stock'
+
     id = sq.Column(sq.Integer, primary_key=True)
     count = sq.Column(sq.String(100), nullable=False)
-    id_book = sq.Column(sq.Integer, sq.ForeignKey('books.id'))
+    id_book = sq.Column(sq.Integer, sq.ForeignKey('book.id'))
     id_shop = sq.Column(sq.Integer, sq.ForeignKey('shop.id'))
-    shop = relationship("Shop")
-    books = relationship("Book")
+
+    shop = relationship(Shop, backref='stocks')
+    book = relationship(Book, backref='stocks')
 
 class Sale(Base):
     __tablename__ = 'sale'
@@ -42,16 +54,11 @@ class Sale(Base):
     date_sale = sq.Column(sq.String(100), nullable=False)
     count = sq.Column(sq.String(100), nullable=False)
     id_stock = sq.Column(sq.Integer(), sq.ForeignKey('stock.id'))
-    sl = relationship('Stock', backref='sale', uselist=False)
 
-class Shop(Base):
-    __tablename__ = 'shop'
-    id = sq.Column(sq.Integer, primary_key=True)
-    name = sq.Column(sq.String(100), nullable=False)
-    stock = relationship("Stock")
+    stock = relationship(Stock, backref='sales')
+
 
 # Base.metadata.drop_all(engine)
-# Base.metadata.create_all(engine)
 
 # def create_tables(engine):
 #     Base.metadata.create_all(engine)
