@@ -74,3 +74,6 @@ def create_tables(engine):
             return True
         else:
             Base.metadata.create_all(engine)
+
+if __name__ == "__main__":
+    create_tables()
