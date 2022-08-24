@@ -20,18 +20,25 @@ q = session.query(Publisher).filter(Publisher.name == input("Введите на
 for s in q.all():
     print(s.id, s.name)
 
+print('=========================>')
+
 q = session.query(Publisher).filter(Publisher.id == input("Введите идентификатор (id) издателя "))
 for s in q.all():
     print(s.id, s.name)
 
-print('======>')
+print('=========================>')
 
-subq = session.query(Shop).all()
-for s in subq:
-    print(s.id, s.name)
-
-print('======>')
 # запрос выборки магазинов, продающих книги издателя
-subq = session.query(Shop.id, Shop.name, Publisher.id).join(Publisher).all()
+def searching_publisher_id():
+    query_join = session.query(Shop).join(Stock).join(Book).join(Publisher)
+    query_publisher_name = input('Введите идентификатор (id) издателя: ')
+    query_result = query_join.filter(Publisher.id == query_publisher_name)
+    for result in query_result.all():
+        print(
+            f'Издатель c id: {query_publisher_name} найден в магазине "{result.name}" '
+            f'с идентификатором {result.id}')
+
+if __name__ == '__main__':
+    searching_publisher_id()
 
 session.commit()
